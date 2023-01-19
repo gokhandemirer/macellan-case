@@ -21,6 +21,8 @@ class GateController extends Controller
     )
     {
         $this->middleware([
+            'throttle:open-gate',
+            'throttle:open-gate-per-user',
             'verified.hash'
         ]);
     }
