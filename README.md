@@ -10,7 +10,8 @@ yapabilirsiniz. Gereken ayarlar yapıldıktan sonra aşağıdaki komutu çalış
 
 <code>php artisan migrate</code>
 
-Bu komutla birlikte gerekli tablolar oluşturduğunuz veritabanı içerisinde oluşturulmuş olacaktır.
+Bu komutla birlikte gerekli tablolar oluşturduğunuz veritabanı içerisinde oluşturulmuş olacaktır. Son olarak .env içerisindeki
+DB_HOST'a değer olarak "db" değerini vermeniz gereklidir.
 
 Aşağıdaki cURL kodu ile istek atabilirsiniz.
 
