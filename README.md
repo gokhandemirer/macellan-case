@@ -1,10 +1,18 @@
 ## Kurulum
 
-Projeyi local ortamınıza çektikten sonra proje dizini içerisindeki aşağıdaki komutları çalıştırmanız yeterlidir;
+Projeyi local ortamınıza çektikten sonra projenin ana dizininde .env dosyasını oluşturup veritabanı ayarlarını yapmalısınız. 
+Daha sonra proje dizini içerisindeyken aşağıdaki komutları sırasıyla çalıştırmalısınız.
 
-<code>composer install && php artisan migrate --seed && docker-compose up --build -d</code>
+<code>composer install && docker-compose up --build -d</code>
 
-Proje 8080 portunda ayağa kalkacaktır, veritabanı ise 5434 portunda ayağa kalkacaktır. Aşağıdaki cURL kodu ile istek atabilirsiniz.
+Bu komutu çalıştırdığınzda proje 8080 portunda, veritabanı ise 5434 portunda ayağa kalkacaktır. Veritabanınız ayağa kalktıktan sonra veritabanınızı oluşturup .env dosyası içerisinde gerekli ayarları
+yapabilirsiniz. Gereken ayarlar yapıldıktan sonra aşağıdaki komutu çalıştırabilirsiniz;
+
+<code>php artisan migrate</code>
+
+Bu komutla birlikte gerekli tablolar oluşturduğunuz veritabanı içerisinde oluşturulmuş olacaktır.
+
+Aşağıdaki cURL kodu ile istek atabilirsiniz.
 
 <code>
 curl --location --request POST 'http://localhost:8080/api/open-gate' \
