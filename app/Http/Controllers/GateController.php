@@ -9,6 +9,9 @@ class GateController extends Controller
 {
     public function __construct()
     {
+        $this->middleware([
+            'verified.hash'
+        ]);
     }
 
     public function openGate(OpenGateRequest $request)
