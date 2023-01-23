@@ -34,45 +34,37 @@ class GateController extends Controller
      */
     public function openGate(OpenGateRequest $request): JsonResponse
     {
-        $requestParam = RequestParam::getInstance();
-        $callbackFailUrl = $requestParam->getCallbackFailUrl();
-        $callbackSuccessUrl = $requestParam->getCallBackSuccessUrl();
-        $callbackHash = HashGenerator::getCallbackHash();
-
         try {
             $this->transactionRepository->createTransaction(
                 $request->input('user_id'),
                 $request->input('order_id'),
                 $request->input('ref_code'),
-                $requestParam->getPrice(),
                 $request->input('point'),
-                $request->input('hash'),
-                $callbackSuccessUrl,
-                $callbackFailUrl
+                $request->input('hash')
             );
 
             // Success
-            $this->sendCallbackRequest($callbackHash, true);
+            $this->sendCallbackRequest(true);
             return ResponseManager::getGenericResponse('Success');
         } catch (TransactionNotCreatedException $exception) {
             // Fail
-            $this->sendCallbackRequest($callbackHash, false);
+            $this->sendCallbackRequest(false);
             throw $exception;
         }
     }
 
     /**
-     * @param string $hash
      * @param bool $isSuccess
      * @return void
      */
-    private function sendCallbackRequest(string $hash, bool $isSuccess): void
+    private function sendCallbackRequest(bool $isSuccess): void
     {
         $requestParam = RequestParam::getInstance();
+        $callbackHash = HashGenerator::getCallbackHash();
         Http::contentType('application/json')->post(
             $isSuccess ? $requestParam->getCallBackSuccessUrl() : $requestParam->getCallbackFailUrl(),
             [
-                'hash' => $hash
+                'hash' => $callbackHash
             ]
         );
     }
